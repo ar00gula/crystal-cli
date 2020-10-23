@@ -1,3 +1,5 @@
 require_relative '../environment.rb'
 
-Scraper.new.second_scrape
+CLI.new.run
+
+# Scraper.new.third_scrape()

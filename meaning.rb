@@ -15,21 +15,17 @@ class Meaning
         @@all
     end
 
-    def self.all_list
-        numbered_list = []
-        @@all.sort.each_with_index {|meaning_cat, index| numbered_list << "#{index + 1}. #{meaning_cat}"
+    def self.list_all
+        @@all.collect{|meaning|meaning.name}.sort
     end
 
     def print_meaning_category
         puts @name
     end
 
-    def associated_crytals
-        check_for_crystals
+    def associated_crystals
         print_meaning_category
-        #this may not work??
-        crystal_list = Crystals.all.find {|crystal| crystal.meaning_category == self}
-        crystal_list.sort.each_with_index {|crystal, index| puts "#{index + 1}. #{crystal}"}
+        crystal_list = Crystal.all.select {|crystal| crystal.meaning_category == self}
     end
 
 end

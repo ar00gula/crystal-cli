@@ -8,11 +8,19 @@ class Crystal
         @name = name
         @crystal_url = crystal_url
         @meaning_category = meaning_category
+        
+        unless
+        name = @@all.find {|crystal| crystal.name == name}
         @@all << self
+        end
     end
 
     def self.all
         @@all
+    end
+
+    def self.list_all
+        binding.pry
     end
 
     def meanings
