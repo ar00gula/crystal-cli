@@ -20,11 +20,19 @@ class Meaning
     end
 
     def print_meaning_category
-        puts @name
+        array = "-"
+        array_2 = array*(@name.split("").length*2)
+        puts array_2
+        puts ""
+        puts @name.downcase.split("").join(" ")
+        puts ""
+        puts array_2
     end
 
     def associated_crystals
         print_meaning_category
+        puts ""
+        puts ""
         crystal_list = Crystal.all.select {|crystal| crystal.meaning_category == self}
     end
 

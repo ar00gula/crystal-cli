@@ -25,7 +25,9 @@ class Scraper
         crystal_elements.each do |crystal_element|
             name = crystal_element.css('div.h4').text.split("Tumbled")[0]
             crystal_url = crystal_element.css('a.grid-view-item__link').attr('href').value
+            unless name == "Rhyolite (Australian) - Rainforest Jasper " || name == "Chevron Amethyst "
             crystal = Crystal.new(name, crystal_url, meaning_category)
+            end
         end
 
     end
@@ -33,9 +35,22 @@ class Scraper
     def third_scrape(crystal)
         description_html = open(@base_url + crystal.crystal_url)
         description_html_parsed_to_elements = Nokogiri::HTML(description_html)
-        specific_meanings = description_html_parsed_to_elements.css('div.product-single__description').children.css('strong')[0].text
-        crystal.specific_meanings = specific_meanings
-        crystal.description = description_html_parsed_to_elements.css('div.product-single__description').text.split("#{specific_meanings}")[1].strip.split("Healing")[0]
+        if crystal.name.include?("Amethyst")
+            amethyst = description_html_parsed_to_elements.css('div.product-single__description').children.css('p').text
+            amethyst_array = []
+            amethyst.split(" ").each do |word|
+                if word == word.upcase && word.length > 3
+                    amethyst_array << word
+                end
+            end
+            crystal.specific_meanings = amethyst_array.join(" & ")
+            crystal.description = amethyst.split(amethyst_array.join(" & "))[1].split("Healing")[0].strip
+        else
+            specific_meanings = description_html_parsed_to_elements.css('div.product-single__description').children.css('strong')[0].text
+            crystal.specific_meanings = specific_meanings
+            crystal.description = description_html_parsed_to_elements.css('div.product-single__description').text.split("#{specific_meanings}")[1].strip.split("Healing")[0]
+        end
     end
+
 
 end
