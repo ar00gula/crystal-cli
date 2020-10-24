@@ -60,7 +60,7 @@ class Scraper
     def second_scrape(crystal)
         description_html = open(@base_url + crystal.crystal_url)
         description_html_parsed_to_elements = Nokogiri::HTML(description_html)
-        if crystal.name.include?("Amethyst")
+        if crystal.name.include?("Amethyst") || crystal.name.include?("Mookaite")
             amethyst = description_html_parsed_to_elements.css('div.product-single__description').children.css('p').text
             amethyst_array = []
             amethyst.split(" ").each do |word|
@@ -70,6 +70,7 @@ class Scraper
             end
             crystal.specific_meanings = amethyst_array.join(" & ")
             crystal.description = amethyst.split(amethyst_array.join(" & "))[1].split("Healing")[0].strip
+
         else
             specific_meanings = description_html_parsed_to_elements.css('div.product-single__description').children.css('strong')[0].text
             crystal.specific_meanings = specific_meanings

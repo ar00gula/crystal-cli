@@ -1,25 +1,24 @@
 class CLI
     def render_ascii_art
-                line_num=0
+        line_num=0
         text=File.open('ascii.txt').read
-        text.gsub!(/\r\n?/, "\n")
         text.each_line do |line|
-        print "#{line_num += 1} #{line}"
+        print "#{line}"
         sleep(0.2)
         end
         sleep(1)
         text=File.open('ascii2.txt').read
-        text.gsub!(/\r\n?/, "\n")
         text.each_line do |line|
-        print "#{line_num += 1} #{line}"
+        print "#{line}"
         end
 
     end
 
     def initialize
+        binding.pry
         puts ""
         sleep(1)
-        puts ""
+        puts "" 
         puts "Grabbing data! Please be paitent."
         @scraper = Scraper.new
         @scraper.first_scrape
@@ -32,17 +31,15 @@ class CLI
 
     def run
         sleep(1)
-        puts ""
-        puts ""
         print_menu
     end
 
     def print_menu
-        puts " ______________________________________"
-        puts "|                                      |"
-        puts "|  c r y s t a l  p r o p e r t i e s  |"
-        puts "|______________________________________|"
         puts ""
+        puts ""
+        puts "                      -".red + "-".light_red + "-".yellow + "-------------------------------"
+        puts "                      c r y s t a l  p r o p e r t i e s"
+        puts "                      ----------------------------------"
         puts ""
         @first_list = Meaning.list_all.each_with_index{|meaning, index| puts "#{index + 1}. #{meaning}"}
         @first_list
@@ -61,20 +58,16 @@ class CLI
                 puts "Input invalid. Try a better number!"
                 puts ""
                 input = gets.chomp
-                puts ""
             end
         end
-        
 
         find_associated_crystals(input)
-
 
     end
 
     def find_associated_crystals(input)
         puts "" 
         meaning_category = Meaning.all.find{|meaning| meaning if meaning.name == @first_list[input.to_i-1]}
-        # Scraper.new.second_scrape(meaning_category)
         @sorted_crystal_list = meaning_category.associated_crystals.map {|crystal| crystal.name}.sort.each_with_index {|crystal, index| puts "#{index + 1}. #{crystal}"}
         puts ""
         puts ""
@@ -91,11 +84,8 @@ class CLI
                 input = gets.chomp
                 puts ""
             end
-
-
-
-
         end
+
         find_crystal_description(input)
    
     end
@@ -119,7 +109,6 @@ class CLI
         puts ""
         puts ""
         puts "-*-*-*-*-"
-        puts ""
         puts ""
         puts "---------------------"
         puts "associated categories"

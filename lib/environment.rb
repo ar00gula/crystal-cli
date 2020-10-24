@@ -1,9 +1,8 @@
 require "pry"
 require "nokogiri"
 require "open-uri"
-
-require 'net/http'
-require 'json'
+require "colorize"
+require 'colorized_string'
 
 
 require_relative './scraper.rb'
