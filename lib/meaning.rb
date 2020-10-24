@@ -20,13 +20,18 @@ class Meaning
     end
 
     def print_meaning_category
-        array = "-"
-        array_2 = array*(@name.split("").length*2)
-        puts array_2
+        spaces = 39 - (@name.split("").length)
+        space = " "
+        spaces= space*spaces
+    
+        array = ["-".magenta + "-".light_magenta]
+        array_2 = array*(@name.split("").length)
+        pink_line = array_2.join
+        puts spaces + pink_line
         puts ""
-        puts @name.downcase.split("").join(" ")
+        puts spaces +@name.downcase.split("").join(" ")
         puts ""
-        puts array_2
+        puts spaces + pink_line
     end
 
     def associated_crystals

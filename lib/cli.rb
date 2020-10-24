@@ -1,21 +1,5 @@
 class CLI
-    def render_ascii_art
-        line_num=0
-        text=File.open('ascii.txt').read
-        text.each_line do |line|
-        print "#{line}"
-        sleep(0.2)
-        end
-        sleep(1)
-        text=File.open('ascii2.txt').read
-        text.each_line do |line|
-        print "#{line}"
-        end
-
-    end
-
-    def initialize
-        binding.pry
+def initialize
         puts ""
         sleep(1)
         puts "" 
@@ -25,7 +9,17 @@ class CLI
         puts "Thank you!"
         puts ""
         sleep(2)
-        render_ascii_art
+        line_num=0
+        text=File.open('ascii.txt').read
+        text.each_line do |line|
+            print "#{line}"
+            sleep(0.2)
+        end
+        sleep(1)
+        text=File.open('ascii2.txt').read
+        text.each_line do |line|
+            print "#{line}"
+        end
 
     end
 
@@ -37,9 +31,11 @@ class CLI
     def print_menu
         puts ""
         puts ""
-        puts "                      -".red + "-".light_red + "-".yellow + "-------------------------------"
+        puts "                      -".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta
+        puts ""
         puts "                      c r y s t a l  p r o p e r t i e s"
-        puts "                      ----------------------------------"
+        puts ""
+        puts "                      -".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta
         puts ""
         @first_list = Meaning.list_all.each_with_index{|meaning, index| puts "#{index + 1}. #{meaning}"}
         @first_list
@@ -66,6 +62,7 @@ class CLI
     end
 
     def find_associated_crystals(input)
+        sleep(1)
         puts "" 
         meaning_category = Meaning.all.find{|meaning| meaning if meaning.name == @first_list[input.to_i-1]}
         @sorted_crystal_list = meaning_category.associated_crystals.map {|crystal| crystal.name}.sort.each_with_index {|crystal, index| puts "#{index + 1}. #{crystal}"}
@@ -85,36 +82,39 @@ class CLI
                 puts ""
             end
         end
-
         find_crystal_description(input)
    
     end
 
-
     def find_crystal_description(input)
+        sleep(1)
         puts ""        
         crystal = Crystal.all.find{|crystal| crystal if crystal.name == @sorted_crystal_list[input.to_i - 1]}
         Scraper.new.second_scrape(crystal)
         puts ""
         puts ""
-        puts crystal.name
+        # spaces = 39 - (crystal.name.split("").length)
+        # space = " "
+        spaces = " "*(39 - (crystal.name.split("").length))
+        array = ["-".magenta + "-".light_magenta]
+        array_2 = array*(crystal.name.split("").length)
+        array_2 = array_2.join
+        puts spaces + array_2
+        puts "#{spaces}  " + crystal.name.downcase.split("").join(" ")
+        puts spaces + array_2
         puts ""
-        puts "-*-*-*-*-"
+        puts " "*(39-(crystal.specific_meanings.length/2)) + crystal.specific_meanings.downcase
         puts ""
-        puts crystal.specific_meanings
-        puts ""
-        puts "-*-*-*-*-"
         puts ""
         puts crystal.description
         puts ""
         puts ""
-        puts "-*-*-*-*-"
         puts ""
-        puts "---------------------"
-        puts "associated categories"
-        puts "---------------------"
+        puts "                             -".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta
+        puts "                             associated categories"
+        puts "                             -".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta
         puts ""
-        puts crystal.meaning_category.map {|meaning| meaning.name}.uniq.sort.join(" | ")
+        puts crystal.meaning_category.map {|meaning| meaning.name}.uniq.sort.join(", ")
         puts ""
         puts ""
         puts "1. Return to Menu"
