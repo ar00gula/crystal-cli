@@ -3,3 +3,4 @@
 require_relative '../lib/crystal_finder/environment.rb'
 
 CLI.new.run
+
