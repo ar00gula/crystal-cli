@@ -74,7 +74,7 @@ class CLI
     def find_associated_crystals(input)
         puts "" 
         meaning_category = Meaning.all.find{|meaning| meaning if meaning.name == @first_list[input.to_i-1]}
-        Scraper.new.second_scrape(meaning_category)
+        # Scraper.new.second_scrape(meaning_category)
         @sorted_crystal_list = meaning_category.associated_crystals.map {|crystal| crystal.name}.sort.each_with_index {|crystal, index| puts "#{index + 1}. #{crystal}"}
         puts ""
         puts ""
@@ -104,7 +104,7 @@ class CLI
     def find_crystal_description(input)
         puts ""        
         crystal = Crystal.all.find{|crystal| crystal if crystal.name == @sorted_crystal_list[input.to_i - 1]}
-        Scraper.new.third_scrape(crystal)
+        Scraper.new.second_scrape(crystal)
         puts ""
         puts ""
         puts crystal.name
@@ -117,6 +117,15 @@ class CLI
         puts ""
         puts crystal.description
         puts ""
+        puts ""
+        puts "-*-*-*-*-"
+        puts ""
+        puts ""
+        puts "---------------------"
+        puts "associated categories"
+        puts "---------------------"
+        puts ""
+        puts crystal.meaning_category.map {|meaning| meaning.name}.uniq.sort.join(" | ")
         puts ""
         puts ""
         puts "1. Return to Menu"

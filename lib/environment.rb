@@ -2,6 +2,9 @@ require "pry"
 require "nokogiri"
 require "open-uri"
 
+require 'net/http'
+require 'json'
+
 
 require_relative './scraper.rb'
 require_relative './crystal.rb'

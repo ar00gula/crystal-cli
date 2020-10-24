@@ -14,25 +14,50 @@ class Scraper
 
             meaning_category = Meaning.new(name, meaning_category_url)
         end
-    end
-
-
-    def second_scrape(meaning_category)
-        meaning_html = open(@base_url + meaning_category.meaning_category_url + "/tumbled-stones")
-        meaning_html_parsed_to_elements = Nokogiri::HTML(meaning_html)
-        crystal_elements = meaning_html_parsed_to_elements.css('div.page-width').children.css('div.grid-view-item')
-
-        crystal_elements.each do |crystal_element|
-            name = crystal_element.css('div.h4').text.split("Tumbled")[0]
-            crystal_url = crystal_element.css('a.grid-view-item__link').attr('href').value
-            unless name == "Rhyolite (Australian) - Rainforest Jasper " || name == "Chevron Amethyst "
-            crystal = Crystal.new(name, crystal_url, meaning_category)
+        array = []
+        Meaning.all.each do |meaning_category|
+            meaning_html = open(@base_url + meaning_category.meaning_category_url + "/tumbled-stones")
+            meaning_html_parsed_to_elements = Nokogiri::HTML(meaning_html)
+            crystal_elements = meaning_html_parsed_to_elements.css('div.page-width').children.css('div.grid-view-item')
+        
+            crystal_elements.each do |crystal_element|
+            
+             name = crystal_element.css('div.h4').text.split("Tumbled")[0]
+             array << name
+                crystal_url = crystal_element.css('a.grid-view-item__link').attr('href').value
+                if Crystal.all.find {|crystal| crystal.name == name}
+                    Crystal.all.each do |crystal|
+                        if crystal.name == name
+                        crystal.meaning_category << meaning_category
+                        end
+                    end
+                else
+                unless name == "Rhyolite (Australian) - Rainforest Jasper " || name == "Chevron Amethyst "
+                crystal = Crystal.new(name, crystal_url, meaning_category)
+                end
+            end
+                
             end
         end
-
     end
 
-    def third_scrape(crystal)
+
+    # def second_scrape(meaning_category)
+    #     meaning_html = open(@base_url + meaning_category.meaning_category_url + "/tumbled-stones")
+    #     meaning_html_parsed_to_elements = Nokogiri::HTML(meaning_html)
+    #     crystal_elements = meaning_html_parsed_to_elements.css('div.page-width').children.css('div.grid-view-item')
+
+    #     crystal_elements.each do |crystal_element|
+    #         name = crystal_element.css('div.h4').text.split("Tumbled")[0]
+    #         crystal_url = crystal_element.css('a.grid-view-item__link').attr('href').value
+    #         unless name == "Rhyolite (Australian) - Rainforest Jasper " || name == "Chevron Amethyst "
+    #         crystal = Crystal.new(name, crystal_url, meaning_category)
+    #         end
+    #     end
+
+    # end
+
+    def second_scrape(crystal)
         description_html = open(@base_url + crystal.crystal_url)
         description_html_parsed_to_elements = Nokogiri::HTML(description_html)
         if crystal.name.include?("Amethyst")

@@ -7,12 +7,17 @@ class Crystal
     def initialize(name, crystal_url, meaning_category)
         @name = name
         @crystal_url = crystal_url
-        @meaning_category = meaning_category
+        @meaning_category = [meaning_category]
         
-        unless
-        name = @@all.find {|crystal| crystal.name == name}
-        @@all << self
-        end
+        # if name = @@all.find {|crystal| crystal.name == name}
+        #     @@all.each do |crystal| 
+        #         if crystal.name == name
+        #             crystal.meaning_category = [crystal.meaning_category, meaning_category]
+        #         end
+        #     end
+        # else
+            @@all << self
+        # end
     end
 
     def self.all
@@ -20,7 +25,7 @@ class Crystal
     end
 
     def self.list_all
-        binding.pry
+        @@all.map {|crystal| crystal.name}
     end
 
     def meanings

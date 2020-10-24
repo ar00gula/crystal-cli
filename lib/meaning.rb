@@ -33,7 +33,7 @@ class Meaning
         print_meaning_category
         puts ""
         puts ""
-        crystal_list = Crystal.all.select {|crystal| crystal.meaning_category == self}
+        crystal_list = Crystal.all.select {|crystal| crystal.meaning_category.include?(self)}
     end
 
 end
