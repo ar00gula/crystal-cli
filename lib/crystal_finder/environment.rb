@@ -2,8 +2,6 @@ require "pry"
 require "nokogiri"
 require "open-uri"
 require "colorize"
-require 'colorized_string'
-
 
 require_relative './scraper.rb'
 require_relative './crystal.rb'
