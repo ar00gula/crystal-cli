@@ -46,11 +46,11 @@ class CLI
     def print_menu
         puts ""
         puts ""
-        puts "                      -".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta
+        puts "                      " + ("-".magenta + "-".light_magenta)*17
         puts ""
         puts "                      c r y s t a l  p r o p e r t i e s"
         puts ""
-        puts "                      -".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta
+        puts "                      " + ("-".magenta + "-".light_magenta)*17
         puts ""
         @first_list = Meaning.list_all.each_with_index{|meaning, index| puts "#{index + 1}. #{meaning}"}
         @first_list
@@ -108,15 +108,13 @@ class CLI
         Scraper.new.second_scrape(crystal)
         puts ""
         puts ""
-        # spaces = 39 - (crystal.name.split("").length)
-        # space = " "
         spaces = " "*(39 - (crystal.name.split("").length))
         array = ["-".magenta + "-".light_magenta]
         array_2 = array*(crystal.name.split("").length)
-        array_2 = array_2.join
-        puts spaces + array_2
+        dividier_line = array_2.join
+        puts spaces + dividier_line
         puts "#{spaces}  " + crystal.name.downcase.split("").join(" ")
-        puts spaces + array_2
+        puts spaces + dividier_line
         puts ""
         puts " "*(39-(crystal.specific_meanings.length/2)) + crystal.specific_meanings.downcase
         puts ""
@@ -125,9 +123,9 @@ class CLI
         puts ""
         puts ""
         puts ""
-        puts "                             -".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta
+        puts "                             " + ("-".magenta + "-".light_magenta)*10 + "-".magenta
         puts "                             associated categories"
-        puts "                             -".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta + "-".light_magenta + "-".magenta
+        puts "                             " + ("-".magenta + "-".light_magenta)*10 + "-".magenta
         puts ""
         puts crystal.meaning_category.map {|meaning| meaning.name}.uniq.sort.join(", ")
         puts ""
