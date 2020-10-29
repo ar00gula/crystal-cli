@@ -30,7 +30,7 @@ class Scraper
                         end
                     end
                 else
-                unless name == "Rhyolite (Australian) - Rainforest Jasper " || name == "Chevron Amethyst " || name == "Malachite " || name == "Lapis Laszuli "
+                unless name == "Rhyolite (Australian) - Rainforest Jasper " || name == "Chevron Amethyst " || name == "Malachite "
                 crystal = Crystal.new(name, crystal_url, meaning_category)
                 end
             end
@@ -55,9 +55,14 @@ class Scraper
         #add method that makes it not break if text is missing
         #create new method that has fewer edgecases
         else
+            if crystal.description = description_html_parsed_to_elements.css('div.product-single__description'). children.css('strong')[0] == nil
+                crystal.specific_meanings = ""
+                crystal.description = "Error on source page. Please select another crystal!"
+            else
             specific_meanings = description_html_parsed_to_elements.css('div.product-single__description').children.css('strong')[0].text
             crystal.specific_meanings = specific_meanings
             crystal.description = description_html_parsed_to_elements.css('div.product-single__description').text.split("#{specific_meanings}")[1].strip.split("Healing")[0]
+            end
         end
     end
 
