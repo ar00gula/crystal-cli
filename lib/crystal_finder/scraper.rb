@@ -1,6 +1,5 @@
 class Scraper
     def initialize
-
         @base_url = "https://crystalearthspirit.com"
     end
 
@@ -14,7 +13,7 @@ class Scraper
 
             meaning_category = Meaning.new(name, meaning_category_url)
         end
-        array = []
+        # name_array = [] #do i need this still???
         Meaning.all.each do |meaning_category|
             meaning_html = open(@base_url + meaning_category.meaning_category_url + "/tumbled-stones")
             meaning_html_parsed_to_elements = Nokogiri::HTML(meaning_html)
@@ -22,9 +21,10 @@ class Scraper
         
             crystal_elements.each do |crystal_element|
             
-             name = crystal_element.css('div.h4').text.split("Tumbled")[0]
-             array << name
-                crystal_url = crystal_element.css('a.grid-view-item__link').attr('href').value
+            name = crystal_element.css('div.h4').text.split("Tumbled")[0]
+            # array << name
+            crystal_url = crystal_element.css('a.grid-view-item__link').attr('href').value
+
                 if Crystal.all.find {|crystal| crystal.name == name}
                     Crystal.all.each do |crystal|
                         if crystal.name == name
@@ -32,7 +32,7 @@ class Scraper
                         end
                     end
                 else
-                unless name == "Rhyolite (Australian) - Rainforest Jasper " || name == "Chevron Amethyst " || name == "Malachite "
+                unless name == "Rhyolite (Australian) - Rainforest Jasper " || name == "Chevron Amethyst " || name == "Malachite " || name == "Lapis Laszuli "
                 crystal = Crystal.new(name, crystal_url, meaning_category)
                 end
             end
@@ -54,7 +54,7 @@ class Scraper
             end
             crystal.specific_meanings = amethyst_array.join(" & ")
             crystal.description = amethyst.split(amethyst_array.join(" & "))[1].split("Healing")[0].strip
-
+        #add method that makes it not break if text is missing
         else
             specific_meanings = description_html_parsed_to_elements.css('div.product-single__description').children.css('strong')[0].text
             crystal.specific_meanings = specific_meanings

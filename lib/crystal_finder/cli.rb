@@ -4,12 +4,10 @@ class CLI
         sleep(1)
         puts "" 
         puts "Grabbing data! Please be paitent."
-        @scraper = Scraper.new
-        @scraper.first_scrape
+        Scraper.new.first_scrape
         puts "Thank you!"
         puts ""
         sleep(2)
-
         puts ""
         puts "                _    .  ,   .           . "
         sleep(0.2)
@@ -60,19 +58,22 @@ class CLI
         input = gets.chomp
         puts ""
         puts ""
-    
-        if input.to_i == 0
-            puts "Input invalid. Try a better number!"
-            input = gets.chomp
-            puts ""
-            until input.to_i <= @first_list.length && input.to_i != 0
-                puts "Input invalid. Try a better number!"
-                puts ""
-                input = gets.chomp
-            end
-        end
 
-        find_associated_crystals(input)
+        input_corrector(input, @first_list)
+
+    
+        # if input.to_i <= 0 || input.to_i >= @first_list.length ##make sure this works  ##Refactor this into method
+        #     puts "Input invalid. Try a better number!"
+        #     input = gets.chomp
+        #     puts ""
+        #     until input.to_i <= @first_list.length && input.to_i != 0 ##make sure this works
+        #         puts "Input invalid. Try a better number!"
+        #         puts ""
+        #         input = gets.chomp
+        #     end
+        # end
+
+        find_associated_crystals(@corrected_input)
 
     end
 
@@ -85,19 +86,21 @@ class CLI
         puts ""
         puts "Select crystal for more information! (enter number)"
 
+        
         input = gets.chomp
-        if input.to_i == 0
-            puts "Input invalid. Try a better number!"
-            input = gets.chomp
-            puts ""
-            until input.to_i <= @first_list.length && input.to_i != 0
-                puts "Input invalid. Try a better number!"
-                puts ""
-                input = gets.chomp
-                puts ""
-            end
-        end
-        find_crystal_description(input)
+        input_corrector(input, @sorted_crystal_list)
+        # if input.to_i <= 0
+        #     puts "Input invalid. Try a better number!"
+        #     input = gets.chomp
+        #     puts ""
+        #     until input.to_i <= @first_list.length && input.to_i > 0
+        #         puts "Input invalid. Try a better number!"
+        #         puts ""
+        #         input = gets.chomp
+        #         puts ""
+        #     end
+        # end
+        find_crystal_description(@corrected_input)
    
     end
 
@@ -108,13 +111,13 @@ class CLI
         Scraper.new.second_scrape(crystal)
         puts ""
         puts ""
-        spaces = " "*(39 - (crystal.name.split("").length))
+        spaces = " "*(39 - (crystal.name.split("").length)) #make this into a method
         array = ["-".magenta + "-".light_magenta]
         array_2 = array*(crystal.name.split("").length)
-        dividier_line = array_2.join
-        puts spaces + dividier_line
+        divider_line = array_2.join
+        puts spaces + divider_line
         puts "#{spaces}  " + crystal.name.downcase.split("").join(" ")
-        puts spaces + dividier_line
+        puts spaces + divider_line
         puts ""
         puts " "*(39-(crystal.specific_meanings.length/2)) + crystal.specific_meanings.downcase
         puts ""
@@ -150,4 +153,20 @@ class CLI
 
     end
     
+    def input_corrector(input, list)
+        if input.to_i > 0 && input.to_i <= list.length
+            @corrected_input = input
+        else 
+            puts "Input invalid. Try a better number!"
+            new_input = gets.chomp
+            puts ""
+            until new_input.to_i <= list.length && new_input.to_i > 0 ##make sure this works
+                puts "Input invalid. Try a better number!"
+                puts ""
+                new_input = gets.chomp
+            end
+            @corrected_input = new_input
+        end
+    end
+
 end

@@ -32,6 +32,8 @@ class Meaning
         puts spaces +@name.downcase.split("").join(" ")
         puts ""
         puts spaces + pink_line
+        puts ""
+        puts ""
     end
 
     def associated_crystals
