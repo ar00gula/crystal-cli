@@ -25,7 +25,7 @@ class Scraper
 
                 if Crystal.all.find {|crystal| crystal.name == name}
                     Crystal.all.each do |crystal|
-                        if crystal.name == name
+                        if crystal.name == name && crystal.meaning_category.include?(meaning_category) == false
                         crystal.meaning_category << meaning_category
                         end
                     end

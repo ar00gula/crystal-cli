@@ -103,7 +103,7 @@ class CLI
         puts "                             associated categories"
         puts "                             " + ("-".magenta + "-".light_magenta)*10 + "-".magenta
         puts ""
-        puts crystal.meaning_category.map {|meaning| meaning.name}.uniq.sort.join(", ")
+        puts crystal.meaning_category.map {|meaning| meaning.name}.sort.join(", ")
         puts ""
         puts ""
         puts "1. Return to Menu"
